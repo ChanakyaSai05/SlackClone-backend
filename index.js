@@ -322,7 +322,7 @@ const io = new Server(httpServer, {
 
 // Set up multer for file uploads
 const storage = multer.diskStorage({
-  destination: "uploads/",
+  destination: "./uploads/",
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
   },
@@ -356,7 +356,7 @@ peerServer.on('disconnect', (client) => {
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("./uploads"));
 
 // Routes
 app.use("/api/auth", authRoutes);
