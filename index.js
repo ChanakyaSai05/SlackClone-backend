@@ -315,7 +315,7 @@ app.use("/peerjs", peerServer);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: ["http://localhost:3000", "http://localhost:5173","https://slack-clone-frontend-afsn.vercel.app",],
     methods: ["GET", "POST"],
   },
 });
@@ -354,7 +354,10 @@ peerServer.on('disconnect', (client) => {
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:5173","https://slack-clone-frontend-afsn.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+}));
 app.use(express.json());
 app.use("/uploads", express.static("./uploads"));
 
