@@ -299,7 +299,7 @@ const peerServer = ExpressPeerServer(httpServer, {
   path: "/myapp",
   allow_discovery: true,
   proxied: true,
-  port: 3000,
+  port: process.env.NODE_ENV === 'production' ? 443 : 3000,
   config: {
     iceServers: [
       { urls: 'stun:stun.l.google.com:19302' },
@@ -315,7 +315,7 @@ app.use("/peerjs", peerServer);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:5173","https://slack-clone-frontend-afsn.vercel.app",],
+    origin: ["http://localhost:3000", "http://localhost:5173","https://slack-clone-frontend-lilac.vercel.app/",],
     methods: ["GET", "POST"],
   },
 });
@@ -355,7 +355,7 @@ peerServer.on('disconnect', (client) => {
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:5173","https://slack-clone-frontend-afsn.vercel.app"],
+  origin: ["http://localhost:3000", "http://localhost:5173","https://slack-clone-frontend-lilac.vercel.app/"],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 }));
 app.use(express.json());
@@ -373,7 +373,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
   }
-  const fileUrl = `${process.env.VITE_API_URL}/uploads/${req.file.filename}`;
+  const fileUrl = `uploads/${req.file.filename}`;
   res.json({ url: fileUrl });
 });
 
