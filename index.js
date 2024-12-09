@@ -299,7 +299,6 @@ const peerServer = ExpressPeerServer(httpServer, {
   path: "/myapp",
   allow_discovery: true,
   proxied: true,
-  port: process.env.NODE_ENV === 'production' ? 443 : 3000,
   config: {
     iceServers: [
       { urls: 'stun:stun.l.google.com:19302' },
