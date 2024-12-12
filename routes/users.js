@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const users = await User.find({ _id: { $ne: req.user.userId } })
+    // const users = await User.find({ _id: { $ne: req.user.userId } })
+    const users = await User.find()
       .select('-password')
       .sort({ name: 1 });
     res.json(users);
