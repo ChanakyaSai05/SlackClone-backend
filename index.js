@@ -43,10 +43,13 @@ app.use("/peerjs", peerServer);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://slack-clone-frontend-tau.vercel.app",
+    ],
     methods: ["GET", "POST"],
-    credentials: true,
-  }
+  },
 });
 
 // Set up multer for file uploads
@@ -83,21 +86,16 @@ peerServer.on("disconnect", (client) => {
 });
 
 // Middleware
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:3000",
-//       "http://localhost:5173",
-//       "https://slack-clone-frontend-lilac.vercel.app",
-//     ],
-//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-//   })
-// );
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://slack-clone-frontend-tau.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  })
+);
 app.use(express.json());
 app.use("/uploads", express.static("./uploads"));
 
@@ -108,7 +106,7 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/invitations", invitationRoutes);
 app.use("/api/boards", boardRoutes);
-app.use("/api/sections", sectionRoutes);
+app.use("/api/sections",sectionRoutes);
 app.use("/api/cards", cardRoutes);
 
 // File upload endpoint
